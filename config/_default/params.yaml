@@ -5,9 +5,10 @@ hugoblox:
     type: person
     tagline: CV Researcher | PhD Student | University of Coimbra
     description: Currently pursuing the Ph.D. degree in Electrical Engineering and Intelligent Systems at the University of Coimbra, Portugal.
+    organization: University of Coimbra
   theme:
     mode: system
-    pack: marine
+    pack: default
     colors:
       primary: ""
       secondary: ""
