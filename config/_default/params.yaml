@@ -7,7 +7,7 @@ hugoblox:
     description: Currently pursuing the Ph.D. degree in Electrical Engineering and Intelligent Systems at the University of Coimbra, Portugal.
     organization: University of Coimbra
   theme:
-    mode: system
+    mode: dark
     pack: default
     colors:
       primary: ""
@@ -31,7 +31,9 @@ hugoblox:
     style: minimal
     language_switcher: true
   copyright:
-    notice: © {year} {name}
+    notice: "{license} © {year} Pedro Daniel Rocha"
+    license:
+      type: cc
   content:
     math:
       enable: false
@@ -41,3 +43,8 @@ hugoblox:
       enable: true
   search:
     enable: true
+  seo:
+    location:
+      address:
+        city: Coimbra
+        country: Portugal
