@@ -5,6 +5,7 @@ date: "2022-10-24"
 type: "landing"
 sections:
   - block: "resume-biography-3"
+    id: "my-bio" # <--- Add this
     content:
       username: "me"
       text: ""
@@ -17,16 +18,14 @@ sections:
         interests: ""
     design:
       css_style: |
-        /* Lower the minmax value so two items fit side-by-side */
-        .resume-biography-3 ul { 
-          display: grid !important; 
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important; 
-          gap: 2rem !important;
+        /* Add padding to each education item */
+        #my-bio li {
+          padding: 20.5rem !important;  /* Adds 24px padding inside each list item */
+          border: 10px solid #ccc !important; /* Optional: Adds a border to see item boundaries */
+          background-color: #fafafa !important; /* Optional: Light background to highlight padding */
+          margin-bottom: 10rem !important; /* Space between items vertically */
         }
-        .resume-biography-3 li { 
-          min-width: 280px !important; 
-          max-width: 100% !important;
-        }
+
       background:
         gradient_mesh:
           enable: true
