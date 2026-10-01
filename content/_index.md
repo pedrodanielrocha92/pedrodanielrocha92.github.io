@@ -16,18 +16,16 @@ sections:
         education: ""
         interests: ""
     design:
-      css_class: "" 
       css_style: |
-        /* Force 2x2 grid for the lists */
+        /* Lower the minmax value so two items fit side-by-side */
         .resume-biography-3 ul { 
           display: grid !important; 
-          grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); 
-          gap: 5.5rem;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important; 
+          gap: 2rem !important;
         }
-        /* Set a minimum width so they don't get too narrow */
         .resume-biography-3 li { 
-          min-width: 650px; 
-          max-width: 900px;
+          min-width: 280px !important; 
+          max-width: 100% !important;
         }
       background:
         gradient_mesh:
