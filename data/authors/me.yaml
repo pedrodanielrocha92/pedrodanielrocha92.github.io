@@ -38,18 +38,25 @@ links:
 interests:
   - "Computer Vision"
   - "Automated Inspection"
-  - "UAV Imaging"
   - "Data-Centric AI"
+  - "Multimodal Datasets"
+  - "Deep Learning"
+  - "Embedded Vision"
+  - "Efficient Sensing"
+  - "Intelligent Systems"
+
 education:
-  - degree: "PhD in Electrical Engineering and Intelligent Systems"
+  - degree: "PhD in Intelligent Systems"
     institution: "University of Coimbra"
-    start: "2024-09-01"
+    start: "2024-09-15"
     end: ""
     summary: "Specialization in Computer Vision and Machine Learning \\
-      
-      Thesis Project : Automated Visual Inspection of Electrical Grid Assets \\
-      using Active Learning and Embedded Vision Systems "
 
+      Thesis Project : Automated Visual Inspection of Electrical Grid Assets \\ using Active Learning and Embedded Vision Systems "
+    button:
+      text: "Thesis Project"
+      url: "/uploads/docs/PhD_Thesis_Project_Pedro_Daniel_Rocha.pdf"
+      icon: "hero/document"
   - degree: "MSc in Electrical Engineering"
     institution: "Coimbra Institute of Engineering"
     start: "2021-09-15"
@@ -57,16 +64,19 @@ education:
     summary: "Specialization in Automation and Communications in Industrial Systems \\
 
       Thesis: Automated Visual Inspection of Electrical Grid Assets using Deep Learning"
+    button:
+      text: "Dissertation"
+      url: "/uploads/docs/MSc_Thesis_Pedro_Daniel_Rocha.pdf"
+      icon: "hero/document"
   - degree: "BSc in Electrical Engineering"
     institution: "Coimbra Institute of Engineering"
     start: "2018-09-15"
-    end: "2021-08-15"
+    end: "2021-09-17"
     summary: "Final Project: Micro-Mouse Robot Development "
     button:
       text: "Final Project"
-      url: "/assets/documents/Relatorio_MicroMouse.pdf"
+      url: "/uploads/docs/Relatorio_Projeto_Automação_MicroMouse_Pedro_Daniel_Rocha.pdf"
       icon: "hero/document"
-
   - degree: "Technical Diploma in Electronics"
     institution: "Figueira da Foz Technical High School"
     start: "2007-09-15"
@@ -74,53 +84,52 @@ education:
     summary: "Final Project: Line-Following Robot Development"
     button:
       text: "Final Project"
-      url: "/assets/documents/Relatorio_PAT.pdf"
+      url: "/uploads/docs/Relatorio_Line-Following_Robot_Pedro_Daniel_Rocha.pdf"
       icon: "hero/document"
-      
+
 experience:
   - role: "Doctoral Researcher (PhD Scholarship)"
     org: "Instituto de Telecomunicações"
     start: "2025-01-01"
     summary: "Conduct research on AI-based Computer Vision for Automated Inspection, collaborating with Industrial Partners to understand operational requirements and develop advanced Deep Learning methods. Document and publish research methodologies and results.\n"
-  - role: "Graduate Researcher (MSc Research Grant)"
-    org: "Instituto de Telecomunicações"
-    start: "2024-01-01"
-    end: "2025-01-01"
-    summary: "Investigated current challenges in Computer Vision for Automated Inspection through literature review and dataset analysis. Curated annotated datasets for training and evaluating Computer Vision models.\n"
   - role: "Data Scientist (PhD Internship)"
     org: "EDP Labelec"
-    start: "2025-01-01"
+    start: "2025-05-01"
     summary: "Contribute to data annotation tools, dataset collection and preprocessing pipelines, and data acquisition strategies for Machine Learning workflows in real-world inspection applications.\n"
   - role: "Teaching Assistant"
     org: "University of Coimbra"
-    start: "2025-01-01"
+    start: "2025-09-01"
     summary: "Teaching and supporting practical coursework in Digital Signal Processing, Analog Electronics II, Computer Programming (C), and Data Analysis and Transformation.\n"
+  - role: "Graduate Researcher (MSc Research Grant)"
+    org: "Instituto de Telecomunicações"
+    start: "2024-05-01"
+    end: "2024-12-30"
+    summary: "Investigated current challenges in Computer Vision for Automated Inspection through literature review and dataset analysis. Curated annotated datasets for training and evaluating Computer Vision models.\n"
   - role: "Embedded Systems Engineer"
     org: "CWJ Power Electronics, SA"
-    start: "2023-01-01"
-    end: "2024-01-01"
+    start: "2023-05-01"
+    end: "2024-03-01"
     summary: "Worked across system requirements, architecture and design, integration, and verification of embedded systems.\n"
   - role: "Electro-Mechanical Maintenance Supervisor"
     org: "Verallia Portugal, SA"
     start: "2022-01-01"
-    end: "2023-01-01"
+    end: "2023-04-01"
     summary: "Led a maintenance team and coordinated maintenance planning, equipment management, and troubleshooting in an automated industrial environment.\n"
   - role: "Instrumentation and Automation Technician"
     org: "Verallia Portugal, SA"
-    start: "2019-01-01"
+    start: "2019-11-01"
     end: "2022-01-01"
     summary: "Diagnosed and resolved failures in automated industrial machinery, debugged PLC programs, and configured and fine-tuned machine vision inspection systems.\n"
   - role: "Production Operator"
     org: "Verallia Portugal, SA"
-    start: "2018-01-01"
-    end: "2019-01-01"
+    start: "2018-06-01"
+    end: "2019-10-01"
     summary: "Operated automated industrial machinery and performed finished-product quality control in a manufacturing environment.\n"
   - role: "Industrial Electrician"
     org: "FozMel – Montagens Eléctricas, Lda"
-    start: "2011-01-01"
-    end: "2018-01-01"
+    start: "2011-08-01"
+    end: "2018-05-01"
     summary: "Built electrical switchboards and diagnosed faults in power and control circuits according to industrial electrical plans.\n"
-
 skills:
   - name: "Research & Communication"
     items:
@@ -134,7 +143,6 @@ skills:
         level: 3
       - label: "Technical Documentation"
         level: 4
-
   - name: "Software & AI"
     items:
       - label: "Python"
@@ -147,7 +155,6 @@ skills:
         level: 3
       - label: "CI/CD & DevOps"
         level: 2
-
   - name: "Hardware & Electronics"
     items:
       - label: "Microcontroller Programming"
@@ -160,7 +167,6 @@ skills:
         level: 4
       - label: "Measurements and Debugging"
         level: 5
-
   - name: "Electrical & Industrial Systems"
     items:
       - label: "Production Lines & Automation"
@@ -173,7 +179,7 @@ skills:
         level: 4
       - label: "Networks & Communications"
         level: 3
-  
+
 languages:
   - name: "Portuguese"
     level: 5
@@ -181,14 +187,24 @@ languages:
   - name: "English"
     level: 5
     label: "Fluent"
-    
+  - name: "Spanish"
+    level: 3
+    label: "Intermediate"
+  - name: "Itallian"
+    level: 2
+    label: "Elementary"
+  - name: "Fernch"
+    level: 2
+    label: "Elementary"
+  - name: "Germany"
+    level: 1
+    label: "Beginer"
 awards:
   - title: "Runner-Up, Best Student Paper Award"
     awarder: "International Symposium on Image and Signal Processing and Analysis (ISPA)"
     date: "2025-10-29"
     summary: "Recognized as runner-up for the Best Student Paper Award at ISPA 2025, held in Coimbra, Portugal."
     icon: "hero/trophy"
-
 ids:
   orcid: "0009-0004-8184-7779"
   google_scholar: "o2Ggia8AAAAJ"

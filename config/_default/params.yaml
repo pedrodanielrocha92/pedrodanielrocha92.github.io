@@ -8,17 +8,20 @@ hugoblox:
     organization: University of Coimbra
   theme:
     mode: dark
-    pack: default
+    pack: minimal
     colors:
       primary: ""
       secondary: ""
-      neutral: ""
+      neutral: "zinc"
+    colors_dark:
+      secondary: ""
+      primary: ""
   typography:
     font: sans
     size: md
   layout:
     radius: md
-    spacing: comfortable
+    spacing: spacious
     avatar_shape: circle
   header:
     enable: true

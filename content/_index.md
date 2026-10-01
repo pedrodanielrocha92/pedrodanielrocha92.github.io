@@ -16,6 +16,19 @@ sections:
         education: ""
         interests: ""
     design:
+      css_class: "" 
+      css_style: |
+        /* Force 2x2 grid for the lists */
+        .resume-biography-3 ul { 
+          display: grid !important; 
+          grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); 
+          gap: 5.5rem;
+        }
+        /* Set a minimum width so they don't get too narrow */
+        .resume-biography-3 li { 
+          min-width: 650px; 
+          max-width: 900px;
+        }
       background:
         gradient_mesh:
           enable: true
@@ -28,19 +41,27 @@ sections:
     As: "section-ae7d5c80"
   - block: "markdown"
     content:
-      title: "📚 My Research"
-      subtitle: ""
+      title: "🔬 My Research"
+      subtitle: "Automating Electrical Grid Asset Inspection"
       text: |-
-        Use this area to speak to your mission. I'm a research scientist in the Moonshot team at DeepMind. I blog about machine learning, deep learning, and moonshots.
+        My research explores how AI-based Computer Vision can enable reliable and scalable Automated Inspection of electrical infrastructure. Despite significant advances in artificial intelligence, automated inspection systems still struggle to match the capabilities of human experhhs, particularly when moving from controlled benchmarks to real operational environments.
 
-        I apply a range of qualitative and quantitative methods to comprehensively investigate the role of science and technology in the economy.
+        I investigate this gap from a system-level perspective. Rather than treating model accuracy as the sole determinant of inspection performance, my work considers how data acquisition, dataset development, annotation, model design, and validation interact with one another and with the requirements of real inspection operations. This perspective addresses practical challenges such as insufficiently representative data, inappropriate acquisition strategies, inconsistent validation practices, and the divergence between benchmark metrics and operational performance.
 
-        Please reach out to collaborate 😃
+        I explore approaches for building inspection systems that can adapt and improve throughout their lifecycle, using active learning for continuous model improvement, leveraging efficient sensing with embedded vision for on-site data validation, and combining advanced computing with multimodal data and models to incorporate physical and domain knowledge. A central objective is to establish better alignment between sensing, computing, and operational requirements to enable the next generation of fully autonomous inspection systems.
+
+        This work is conducted in close collaboration with industry, allowing research questions to emerge from real inspection challenges and providing a direct connection between methodological development and practical requirements. Ultimately, I aim to contribute to the development of intelligent vision systems that are not only accurate in controlled experiments, but reliable, scalable, and useful in real-world inspection.
+
+        [![Graphical Abstract](/publications/IEEE_Access/graphical_abstract.png)](/publications/IEEE_Access/)
+
     design:
-      columns: "1"
-    ce: "section-865b5ef9"
+        
+      css_class: "max-w-full mx-auto text-9xl"
+
+    ce: "section-research"
     id: "research"
     As: "section-4f719b15"
+
   - block: "collection"
     content:
       title: "Featured Publications"
@@ -49,6 +70,9 @@ sections:
           - "publications"
         featured_only: true
     design:
+      background:
+        gradient_mesh:
+          enable: true
       view: "article-grid"
       columns: 2
     ce: "section-papers"
@@ -70,19 +94,23 @@ sections:
       title: "Recent Presentations"
       filters:
         folders:
-          - "events"
+          - "slides"
+      page_type: "slides"
     design:
+      background:
+        gradient_mesh:
+          enable: true
       view: "card"
     ce: "section-talks"
     id: "presentations"
     As: "section-7c16c238"
   - block: "collection"
     content:
-      title: "Recent News"
+      title: "Recent Events"
       subtitle: ""
       text: ""
-      page_type: "blog"
-      count: 10
+      page_type: "events"
+      count: 6
       filters:
         author: ""
         category: ""
@@ -93,15 +121,18 @@ sections:
         publication_type: ""
       offset: 0
       order: "desc"
+      sort_by: "Date"
     design:
       view: "card"
-      spacing:
-        padding:
-          - 0
-          - 0
-          - 0
-          - 0
     ce: "section-news"
-    id: "news"
+    id: "events"
     As: "section-446372d1"
+  - block: "dev-hero"
+    content:
+      username: "me"
+      show_status: false
+      show_scroll_indicator: false
+      scroll_target: "#projects"
+    ce: "section-6-dev-hero"
+    As: "section-a0e18236"
 ---

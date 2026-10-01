@@ -12,9 +12,9 @@ main:
     identifier: 7d948abc
     url: /#research
     weight: 20
-  - name: News
+  - name: Events
     identifier: 884b15b3
-    url: /#news
+    url: /#events
     weight: 30
   - name: Experience
     identifier: a6096238
