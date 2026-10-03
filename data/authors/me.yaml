@@ -14,7 +14,8 @@ postnominals:
 status:
   icon: "🔭"
 role: "AI & CV PhD Researcher"
-bio: "Pedro Daniel Rocha is a Computer Vision Research Scientist at the Instituto de Telecomunicações and a Ph.D. candidate at the University of Coimbra, Portugal. His work explores how AI-based Computer Vision can support Automated Inspection. With over a decade of Industrial Experience, he brings an Engineering perspective to Applied Research, driven by an interest in developing Intelligent Vision Systems that address real-world challenges.\ \n"
+#bio: "Pedro Daniel Rocha is a Computer Vision Research Scientist at the Instituto de Telecomunicações and a Ph.D. candidate at the University of Coimbra, Portugal. His work explores how AI-based Computer Vision can support Automated Inspection. With over a decade of Industrial Experience, he brings an Engineering perspective to Applied Research, driven by an interest in developing Intelligent Vision Systems that address real-world challenges.\ \n"
+bio: "Computer Vision Research Scientist at the Instituto de Telecomunicações and a Ph.D. candidate at the University of Coimbra, Portugal. His applied research explores computer vision for automated inspection, combining an engineering perspective with over a decade of industrial experience to develop intelligent systems for practical challenges."
 affiliations:
   - name: "Instituto de Telecomunicações"
     url: "https://www.it.pt/"
@@ -185,20 +186,20 @@ languages:
     level: 5
     label: "Native"
   - name: "English"
-    level: 5
+    level: 4.75
     label: "Fluent"
   - name: "Spanish"
-    level: 3
+    level: 2.5
     label: "Intermediate"
   - name: "Itallian"
     level: 2
     label: "Elementary"
-  - name: "Fernch"
-    level: 2
+  - name: "French"
+    level: 1.5
     label: "Elementary"
-  - name: "Germany"
-    level: 1
-    label: "Beginer"
+  - name: "German"
+    level: 0.5
+    label: "Beginner"
 awards:
   - title: "Runner-Up, Best Student Paper Award"
     awarder: "International Symposium on Image and Signal Processing and Analysis (ISPA)"

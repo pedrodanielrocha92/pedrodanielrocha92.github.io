@@ -5,7 +5,6 @@ date: "2022-10-24"
 type: "landing"
 sections:
   - block: "resume-biography-3"
-    id: "my-bio" # <--- Add this
     content:
       username: "me"
       text: ""
@@ -25,7 +24,6 @@ sections:
           background-color: #fafafa !important; /* Optional: Light background to highlight padding */
           margin-bottom: 10rem !important; /* Space between items vertically */
         }
-
       background:
         gradient_mesh:
           enable: true
@@ -35,10 +33,11 @@ sections:
         size: "large"
         shape: "circle"
     ce: "section-823b6304"
+    id: "my-bio"
     As: "section-ae7d5c80"
   - block: "markdown"
     content:
-      title: "🔬 My Research"
+      title: "🔬 Research Overview"
       subtitle: "Automating Electrical Grid Asset Inspection"
       text: |-
         My research explores how AI-based Computer Vision can enable reliable and scalable Automated Inspection of electrical infrastructure. Despite significant advances in artificial intelligence, automated inspection systems still struggle to match the capabilities of human experhhs, particularly when moving from controlled benchmarks to real operational environments.
@@ -49,12 +48,9 @@ sections:
 
         This work is conducted in close collaboration with industry, allowing research questions to emerge from real inspection challenges and providing a direct connection between methodological development and practical requirements. Ultimately, I aim to contribute to the development of intelligent vision systems that are not only accurate in controlled experiments, but reliable, scalable, and useful in real-world inspection.
 
-        [![Graphical Abstract](/publications/IEEE_Access/graphical_abstract.png)](/publications/IEEE_Access/)
-
+        [![Graphical Abstract](uploads/graphical_abstract.png)](/publications/IEEE_Access/)
     design:
-        
       css_class: "max-w-full mx-auto text-9xl"
-
     ce: "section-research"
     id: "research"
     As: "section-4f719b15"
@@ -66,6 +62,7 @@ sections:
         folders:
           - "publications"
         featured_only: true
+      count: 2
     design:
       background:
         gradient_mesh:
@@ -73,6 +70,7 @@ sections:
       view: "article-grid"
       columns: 2
     ce: "section-papers"
+    id: "papers"
     As: "section-64848e6c"
   - block: "collection"
     content:
@@ -82,6 +80,7 @@ sections:
         folders:
           - "publications"
         exclude_featured: false
+      count: 4
     design:
       view: "citation"
     ce: "section-b5ae280e"
@@ -89,6 +88,9 @@ sections:
   - block: "collection"
     content:
       title: "Recent Presentations"
+      subtitle: ""
+      text: ""
+      count: 2
       filters:
         folders:
           - "slides"
@@ -97,8 +99,8 @@ sections:
       background:
         gradient_mesh:
           enable: true
-      view: "card"
-    ce: "section-talks"
+      view: "slides-gallery"
+    ce: "section-slides"
     id: "presentations"
     As: "section-7c16c238"
   - block: "collection"
@@ -107,7 +109,7 @@ sections:
       subtitle: ""
       text: ""
       page_type: "events"
-      count: 6
+      count: 2
       filters:
         author: ""
         category: ""
@@ -120,10 +122,11 @@ sections:
       order: "desc"
       sort_by: "Date"
     design:
-      view: "card"
-    ce: "section-news"
+      view: "card" # card compact showcase citation list masonry article-grid date-title-summary slides-gallery
+      columns: 2
+    ce: "section-events"
     id: "events"
-    As: "section-446372d1"
+    As: "section-983e9d5a"
   - block: "dev-hero"
     content:
       username: "me"
