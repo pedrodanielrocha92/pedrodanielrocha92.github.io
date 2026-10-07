@@ -48,7 +48,7 @@ sections:
 
         This work is conducted in close collaboration with industry, allowing research questions to emerge from real inspection challenges and providing a direct connection between methodological development and practical requirements. Ultimately, I aim to contribute to the development of intelligent vision systems that are not only accurate in controlled experiments, but reliable, scalable, and useful in real-world inspection.
 
-        [![Graphical Abstract](uploads/graphical_abstract.png)](/publications/IEEE_Access/)
+        [![Graphical Abstract](uploads/graphical_abstract.png)](/publications/ieee-access/)
     design:
       css_class: "max-w-full mx-auto text-9xl"
     ce: "section-research"
@@ -62,7 +62,7 @@ sections:
         folders:
           - "publications"
         featured_only: true
-      count: 2
+      count: 4
     design:
       background:
         gradient_mesh:
