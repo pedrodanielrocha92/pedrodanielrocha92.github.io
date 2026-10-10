@@ -117,7 +117,7 @@ status: published
 - Refine Spatial Supervision through Visual Prompting of foundation model
 
 <figure>
-  <img src="approach.png" alt="Canonical examples illustrating successive dataset variants. " width="100%">
+  <img src="figures/approach.png" alt="Canonical examples illustrating successive dataset variants. " width="100%">
   <figcaption>
   Canonical examples illustrating successive dataset variants. Starting from defect-only supervision, asset annotations are scaled through model-assisted labeling, followed by supervision-aware cropping to focus on regions of interest, and finally refined into polygonal instances using model-assisted spatial localization.
   </figcaption>
@@ -142,7 +142,7 @@ status: published
   - Cross-Fold Validation: k = 4
 
 <figure>
-  <img src="data.png" alt="Normalized object scale distributions before and after supervision-aware cropping. " width="100%">
+  <img src="figures/data.png" alt="Normalized object scale distributions before and after supervision-aware cropping. " width="100%">
   <figcaption>
   Normalized object scale distributions before and after supervision-aware cropping. Cropping increases relative object size while preserving scale variability essential for multi-scale training.
   </figcaption>
@@ -160,7 +160,7 @@ status: published
     - 0.778 ± 0.138 → 0.788 ± 0.1
 
 <figure>
-  <img src="results.png" alt="Detection performance. " width="100%">
+  <img src="figures/results.png" alt="Detection performance. " width="100%">
   <figcaption>
   Detection performance ($AP_{50}$) for broken-class instances across 128 experiments: 2 test $\times$ 4 datasets $\times$ 4 folds $\times$ 4 seeds.
   </figcaption>

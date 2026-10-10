@@ -79,7 +79,7 @@ status: published
 Electrical grid reliability is becoming increasingly critical as electricity demand grows and infrastructure ages. More than 50% of the EU grid has been in operation for over 20 years. Insulators represent only 5–8% of installation costs, yet account for over 50% of maintenance expenditure. Manual visual inspection remains labor-intensive, time-consuming, and subject to operator variability.
 
 <figure>
-  <img src="context.png" alt="From grid growth and aging assets to automated visual inspection." width="100%">
+  <img src="figures/context.png" alt="From grid growth and aging assets to automated visual inspection." width="100%">
   <figcaption>
   Motivation: grid growth and asset aging increase inspection load, shifting the bottleneck from UAV-based data acquisition to data interpretation. Coarse image-level labels limit training efficiency, motivating spatially detailed region-level supervision.
   </figcaption>
@@ -109,7 +109,7 @@ Automated inspection models are increasingly used to support maintenance decisio
 - **Protocol:** 4-fold cross-validation × 3 random seeds; 1280×1280 high-resolution crops; identical data splits and hyperparameters.
 
 <figure>
-  <img src="overview.png" alt="Controlled comparison of image-level and region-level supervision." width="100%">
+  <img src="figures/overview.png" alt="Controlled comparison of image-level and region-level supervision." width="100%">
   <figcaption>
   Methodology: controlled comparison of image-level and region-level supervision using identical images, architectures, and training splits. Evaluation covers test-set performance (mAP, precision, recall), defect localization, convergence, and data efficiency.
   </figcaption>
@@ -122,14 +122,14 @@ Automated inspection models are increasingly used to support maintenance decisio
 - Real-world UAV imagery with diverse backgrounds, viewpoints, and asset scales.
 
 <figure>
-  <img src="data_sample.png" alt="Annotation variants: fitted region-level boxes versus full-image labels." width="100%">
+  <img src="figures/data_sample.png" alt="Annotation variants: fitted region-level boxes versus full-image labels." width="100%">
   <figcaption>
   Dataset examples (top: region-level fitted boxes for <em>good</em> and <em>broken</em>; bottom: corresponding image-level clamped labels). The same field images are used in both settings to isolate the effect of spatial supervision.
   </figcaption>
 </figure>
 
 <figure>
-  <img src="data_stats.png" alt="Distribution of normalized bounding-box areas." width="100%">
+  <img src="figures/data_stats.png" alt="Distribution of normalized bounding-box areas." width="100%">
   <figcaption>
   Scale distribution: per-image normalized box area (sorted, left) and overall density with Gaussian fit (μ = 0.078, σ = 0.031, right). Insulators typically occupy a small fraction of the frame, underscoring the need for precise localization.
   </figcaption>
@@ -143,7 +143,7 @@ Automated inspection models are increasingly used to support maintenance decisio
 - **Image-level supervision** was more susceptible to overfitting and spurious correlations, with high recall but low precision.
 
 <figure>
-  <img src="train_evo.png" alt="Training dynamics for region-level versus image-level supervision." width="100%">
+  <img src="figures/train_evo.png" alt="Training dynamics for region-level versus image-level supervision." width="100%">
   <figcaption>
   Training dynamics: classification loss (top-left) and validation mAP@50, precision, and recall (others) over 150 epochs. Fitted boxes (green/blue) converge faster and more stably than clamped boxes (purple/orange/red/yellow). Shaded bands denote variability across seeds.
   </figcaption>
@@ -151,10 +151,10 @@ Automated inspection models are increasingly used to support maintenance decisio
 
 <figure>
   <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; line-height: 0;">
-    <img src="precision.png" alt="Test precision per class." style="width: 100%; display: block; margin: 0;">
-    <img src="recall.png" alt="Test recall per class." style="width: 100%; display: block; margin: 0;">
-    <img src="f1.png" alt="Test F1-score per class." style="width: 100%; display: block; margin: 0;">
-    <img src="ap50.png" alt="Test AP at IoU 0.50 per class." style="width: 100%; display: block; margin: 0;">
+    <img src="figures/precision.png" alt="Test precision per class." style="width: 100%; display: block; margin: 0;">
+    <img src="figures/recall.png" alt="Test recall per class." style="width: 100%; display: block; margin: 0;">
+    <img src="figures/f1.png" alt="Test F1-score per class." style="width: 100%; display: block; margin: 0;">
+    <img src="figures/ap50.png" alt="Test AP at IoU 0.50 per class." style="width: 100%; display: block; margin: 0;">
   </div>
   <figcaption>
   Test-set metrics per class (<em>good</em> vs. <em>broken</em>) across folds (marker shape) and runs (marker shade) — top-left: precision, top-right: recall, bottom-left: F1-score, bottom-right: AP@50. Box-Fit (region-level, left) substantially outperforms Box-All (image-level, right) with higher, more stable scores.
@@ -162,7 +162,7 @@ Automated inspection models are increasingly used to support maintenance decisio
 </figure>
 
 <figure>
-  <img src="results_qualitative.png" alt="Qualitative detection examples with confidence scores." width="100%">
+  <img src="figures/results_qualitative.png" alt="Qualitative detection examples with confidence scores." width="100%">
   <figcaption>
   Qualitative results: region-level model predictions on held-out operational imagery. Correct localization of <em>good</em> (green) and <em>broken</em> (red) insulators with confidence scores across diverse poles, landscapes, and lighting conditions.
   </figcaption>

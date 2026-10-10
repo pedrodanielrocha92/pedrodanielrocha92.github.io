@@ -25,7 +25,7 @@ funding:
   - funder: Fundaçãao para a Ciência e a Tecnologia
     grant: UIDB/50008/2020 – https://doi.org/10.54499/UIDB/50008/2020
 abstract: |
-  The globally growing demand for electric power requires extensive upgrades in Transport and Distribution systems, yet the reliability of ageing infrastructure remains the more critical concern, with power line insulators accounting for over 50% of maintenance costs. This research evaluates deep learning computer vision for automated visual inspection of electrical grid assets with real-world data, detecting defects in HV disc insulators in visible-light images with two state-of-the-art models. YOLOv8s achieved a mAP@50 of 87.9%, while Faster R-CNN X101-FPN achieved 87.2%. Assessing the performance and complexity of data-driven inspection techniques is a first step toward streamlined models for real-time operation and integration in smart grid monitoring and control, or as a component of a grid digital twin.
+  The globally growing demand for electric power, projected to double by 2050, requires extensive upgrades in Transport and Distribution (T&D) systems. Despite the need for new infrastructures to address this demand, the reliability of ageing electrical T&D systems remains a more critical concern, where power line insulators account for over 50% of T&D maintenance costs. To boost inspection efficiency, electric utilities are integrating remote inspection technologies into their operations. However, the processing of the growing volume of collected data is currently strongly limited by human interpretation tasks.This research evaluates the performance of computer vision based on deep learning models for automated visual inspection of electrical grid assets, validated with real-world data. The developed work presents an example application of automated visual inspection of HV insulators, detecting defects in disc insulators in visible light images, using two state-of-the-art deep learning models. YOLOv8s achieved a mAP@50 of 87.9%, while Faster R-CNN X101-FPN achieved 87.2% for the same metric. The findings highlight the advantages and limitations of automated visual inspection, enabling utility companies to benefit from higher efficiency inspection processes, reducing the costs and improving the reliability of electrical grid maintenance.Assessing the performance and complexity of data-driven automated visual inspection techniques is crucial for developing streamlined models that effectively handle high data volumes, and that can evolve to real-time operation and integration in the monitoring and control functions of the smart grid or as a dynamic component of a digital twin of the grid.
 summary: YOLOv8s vs Faster R-CNN for HV insulator defect detection, reaching 87.9% and 87.2% mAP50 on real-world data.
 tags:
   - Asset inspection
@@ -66,99 +66,91 @@ status: published
 <!-- Add the paper text or supplementary notes. Markdown, math, and code are supported. -->
 ---
 
+> **Copyright notice:** © 2024 IEEE. Personal use of this material is permitted. Permission from IEEE must be obtained for all other uses. The published version is available via [IEEE Xplore](https://doi.org/10.1109/SmartGridComm60555.2024.10738034).
+
+---
+
 ## Overview
 
-<!-- TODO: drop your file in as graphical_abstract.pdf -->
-<figure>
-  <iframe
-    src="graphical_abstract.pdf#toolbar=0&view=Fit&navpanes=0"
-    width="100%"
-    style="aspect-ratio: 1/0.99; border: none;">
-    <p>
-      This browser does not support PDFs. Please download the PDF to view it:
-      <a href="graphical_abstract.pdf">Download PDF</a>.
-    </p>
-  </iframe>
-
-  <figcaption>
-  One-stage (YOLOv8s) vs two-stage (Faster R-CNN X101-FPN) detectors on HV insulator defects.
-  </figcaption>
-</figure>
-
-First-step evaluation toward low-complexity models for smart grid integration, comparing two state-of-the-art object detectors on high-resolution HV insulator imagery (Oslo, Norway).
-
-### Background
-
-- Power demand doubling by 2050; T&D expansion beyond 160 million km
-- Insulators are 5-8% of installation cost but over 50% of maintenance expenses
-- Utilities collect large visual datasets; human interpretation is the bottleneck
-- Aerial in-person inspection costs 150-800 C/km vs 40-150 C/km automated
-
-### Challenges
-
-- Public IDID contains 1,600 annotated files but only 400 unique images (mirrored copies)
-- Random validation splits leak mirrored copies; missing annotations (edge-cropped, adjacent good discs)
-- Small defective features in high-resolution UAV imagery with intricate backgrounds
-- Models must generalize to unseen test data and other collections (e.g. EDP MV lines)
-
-### Approach
-
-- One-stage YOLOv8s (1024px input, 100 epochs, batch 32) vs two-stage Faster R-CNN X101-FPN
-- Classes: functional (good), defective disc (broken), defective shell (flashover)
-- Careful 15% validation split excluding mirrored training copies
-- Test inference on 88 non-annotated IDID images plus 24 EDP LabElec MV images
-
-<!-- TODO: drop your file in as approach.png -->
-<figure>
-  <img src="approach.png" alt="Detection pipeline. " width="100%">
-  <figcaption>
-  Automated inspection pipeline from UAV imagery to localized defect predictions.
-  </figcaption>
-</figure>
+First-step evaluation toward low-complexity models for smart-grid integration. Two state-of-the-art detectors are compared on high-resolution HV-insulator imagery: one-stage YOLOv8s vs two-stage Faster R-CNN X101-FPN.
 
 ### Data
 
-- **Dataset**
-  - IDID (EPRI): 1,600 files, 17,116 instances (78% good, 15% flashover, 7% broken)
-  - 400 unique images; validation carefully split to avoid mirrored leakage
-  - Test: 88 IDID images plus 24 private EDP MV-line images
+- **IDID (EPRI):** 1,600 files, 17,116 instances (78% good, 15% flashover, 7% broken), but only 400 unique images plus mirrored copies.
+- Validation split carefully separated (15%) to avoid mirrored leakage between train and valid.
+- Edge-cropped discs and good discs adjacent to broken ones are often not annotated, which bounds metric reliability.
 
-<!-- TODO: drop your file in as data.png -->
 <figure>
-  <img src="data.png" alt="Dataset examples and splits. " width="100%">
+  <img src="figures/miss_annotations.jpg" alt="IDID example with missing annotations on edge-cropped and adjacent discs." width="100%">
   <figcaption>
-  Dataset examples, annotation gaps, and split organization.
+  IDID annotation gaps: edge-cropped discs and adjacent good discs left unannotated.
   </figcaption>
 </figure>
+
+### Experiment
+
+- Early comparative experiment, no novel method — off-the-shelf detectors with standard training:
+  - YOLOv8s, 1024px input, 100 epochs, batch 32, default Ultralytics augmentation.
+  - Faster R-CNN X101-FPN, short edge 640–800px, batch 4 images, default Detectron2 augmentation.
+- Classes: good (functional), broken (defective disc), flashover (defective shell).
+- Extra qualitative test on 88 non-annotated IDID images plus 24 private EDP MV-line images.
 
 ### Results
 
-- YOLOv8s mAP50 of 87.9% (good 92.9%, broken 82.7%, flashover 88.0%)
-- Faster R-CNN mAP50 of 87.2% (good 94.3%, broken 83.0%, flashover 84.2%)
-- YOLO converges with best validation at epoch 56 (early stop at 71); broken class conservative but precise
-- YOLO generalizes better to blurred EDP images; Faster struggles off-focus and on glass insulators
+- Validation mAP50: YOLOv8s 87.9% (good 92.9%, broken 82.7%, flashover 88.0%) vs Faster R-CNN 87.2% (good 94.3%, broken 83.0%, flashover 84.2%).
+- YOLO converges with best validation at epoch 56 (early stop at 71); box loss improves only slightly from pre-trained weights, class attribution improves most.
+- Faster leads slightly on classification for good/broken, YOLO leads on box regression (mAP50-95 decay) and generalizes better to blurred EDP images.
 
-<!-- TODO: drop your file in as results.png -->
 <figure>
-  <img src="results.png" alt="Quantitative and qualitative results. " width="100%">
+  <img src="figures/training_loss_hvi.png" alt="YOLOv8s training and validation loss curves." width="100%">
   <figcaption>
-  Training curves, confusion matrices, and correct vs mispredicted examples.
+  YOLOv8s training dynamics: box and classification loss, train vs valid. Valid stalls after epoch 56.
   </figcaption>
 </figure>
 
-### Findings
+<figure>
+  <img src="figures/results_hvi.png" alt="YOLOv8s precision, recall, F1 and precision-recall curves." width="100%">
+  <figcaption>
+  YOLOv8s validation curves. Broken is conservative but precise (high precision, lower recall); good has highest recall.
+  </figcaption>
+</figure>
 
-- Both models perform well for a fully automated approach; YOLO leads on box regression, Faster on some classification
-- Annotation trustworthiness bounds metric reliability (mAP50-95 decay, background confusion)
-- Mispredictions cluster on bird droppings, occlusions, evening light, and unseen glass insulators
-- Next steps: high-quality dataset, domain-specific architectures, low-complexity edge models
+<figure>
+  <img src="figures/cm_hvi.png" alt="YOLOv8s confusion matrices, absolute and normalized." width="100%">
+  <figcaption>
+  Confusion at 0.25 confidence. Many good predictions on background might reflect missing annotations rather than pure false positives.
+  </figcaption>
+</figure>
+
+### Qualitative check
+
+- Both models detect functional and defective discs in most test images.
+- Typical YOLO confusions: bird droppings vs flashover, occlusions, defocus treated as background, unseen glass insulators.
+- Faster struggles more off-focus and in evening light; both show duplicate boxes with different labels on the same object.
+
+<figure>
+  <img src="figures/yolo_vs_faster.jpg" alt="Side-by-side YOLOv8s (top) and Faster R-CNN (bottom) predictions." width="100%">
+  <figcaption>
+  Same scenes, top YOLOv8s vs bottom Faster R-CNN. On the left, YOLO detects a flashover and a broken disc that Faster misses. On the right, YOLO misses several broken discs that Faster detects.
+  </figcaption>
+</figure>
+
+
+### Takeaways
+
+- Both detectors are viable for a fully automated first pass; YOLO is the more practical baseline for edge / real-time use.
+- Metric reliability is bounded by annotation trustworthiness (missing boxes, coarse geometry).
+- Next steps from this early experiment: high-quality dataset, domain-specific architectures, low-complexity edge models.
 
 ---
 
 ## Conference Paper
 
+A self-archived accepted manuscript is provided below. <br>
+The published version is available in [IEEE Xplore](https://doi.org/10.1109/SmartGridComm60555.2024.10738034).
+
 <iframe
-  src="paper_SmartGridComm24_An_Application_to_HV_Insulators.pdf#toolbar=0&view=Fit&navpanes=0"
+  src="paper_SmartGridComm24_An_Application_to_HV_Insulators.pdf#toolbar=0&navpanes=0&view=Fit"
   width="100%"
   style="aspect-ratio: 1 / 1.294; border: none;">
   <p>This browser does not support PDFs. Please download the PDF to view it:

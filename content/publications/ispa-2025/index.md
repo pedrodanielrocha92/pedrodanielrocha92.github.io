@@ -28,7 +28,7 @@ funding:
   - funder: Fundaçãao para a Ciência e a Tecnologia
     grant: 2024.01914.BDANA
 abstract: |
-  Automating visual inspections improves efficiency and consistency by addressing the limitations of manual checks, which require skilled labor and are prone to errors due to fatigue and cognitive bias. Deep learning models have enhanced computer vision generalization capabilities, being robust to label noise with large datasets. However, clean labels yield better performance than noisy ones. This study analyzes the impact of annotation detail and quality on model performance, fine-tuning several YOLOv11 models in a data-centric approach on a high-resolution HV insulator image set. Quality is evaluated along three vectors: annotation consistency (mitigating noise with strict labeling); spatial granularity (large box, small box, and polygon); and categorical definition (varying the number of annotated classes). Experimental results demonstrate improved test accuracy through enhanced label precision, and show that higher data quality reduces the need for large quantities of annotated data.
+  Automating visual inspections improves efficiency and consistency by addressing the limitations of manual checks, which require skilled labor and are prone to errors due to fatigue and cognitive bias. Automated systems reduce costs but come with their own expenses and challenges. Deep learning models have enhanced computer vision generalization capabilities, being robust to label noise with large datasets. However, clean labels yield better performance than noisy ones. Recent research often focuses on model-centric improvements, neglecting the importance of high-quality data, especially in industries with limited datasets. This study analyzes the impact of annotation detail and quality on model performance, fine-tuning several YOLOv11 models, in a data-centric approach of improving the quality of a high-resolution HV insulator image set, that is evaluated based on three vectors: annotations consistency (mitigating noise with strict labeling); spatial granularity (large box, small box, and polygon); and categorical definition (varying the  number of annotated classes). The experimental results evaluate performance across different data quality levels, demonstrating improved test accuracy through enhanced label precision. Furthermore, the study concluded that higher data quality reduces the need for large quantities of annotated data. The conclusions of this work are important to define updated guidelines for optimal labeling effort management.
 summary: Evaluating how annotation consistency, spatial granularity, and categorical definition affect HV insulator defect detection with YOLOv11.
 tags:
   - Asset inspection
@@ -52,8 +52,8 @@ links:
   #  url: ""
   #- type: project
   #  url: ""
-  #- type: slides
-  #  url: ""
+  - type: slides
+    url: slides_ISPA_2025_Annotations_Impact_Pedro_Daniel_Rocha.pdf
   #- type: source
   #  url: ""
   #- type: video
@@ -69,107 +69,137 @@ status: published
 <!-- Add the paper text or supplementary notes. Markdown, math, and code are supported. -->
 ---
 
+> **Copyright notice:** © 2025 IEEE. Personal use of this material is permitted. Permission from IEEE must be obtained for all other uses. The published version is available via [IEEE Xplore](https://doi.org/10.1109/ISPA66905.2025.11259463).
+
+---
+
 ## Overview
 
-<!-- TODO: drop your file in as graphical_abstract.pdf -->
+Data-centric study of annotation quality: 108 YOLOv11 models fine-tuned on IDID, varying only how the data was labelled — never the architecture.
+
+### Method
+
+Three quality dimensions, each evaluated in isolation:
+
+- **Labelling consistency** — noise mitigation via a strict QC policy: `basic` vs `reference` vs `careful`.
+- **Spatial granularity** — geometry: large box (`boxL`) vs small box (`boxS`) vs `polygon`.
+- **Categorical definition** — class count: 4 classes vs 3 vs 2 defective-only.
+
+Three levels per dimension × 4 cross-validation folds × 3 model sizes (YOLOv11 s/m/l) = 36 models each, **108 trained models** in total. Primary metric: AP50. Inference 11.9–35.4 ms/image (small–large).
+
 <figure>
-  <iframe 
-    src="graphical_abstract.pdf#toolbar=0&view=Fit&navpanes=0" 
-    width="100%" 
-    style="aspect-ratio: 1/0.99; border: none;">
-    <p>
-      This browser does not support PDFs. Please download the PDF to view it:
-      <a href="graphical_abstract.pdf">Download PDF</a>.
-    </p>
-  </iframe>
-
+  <img src="figures/method.png" alt="Experiment dimensions and domain configurations." width="100%">
   <figcaption>
-  Overview of the annotation detail levels evaluated for HV insulator defect detection.
-  </figcaption>
-</figure>
-
-Data-centric study on the impact of annotation quality and detail level on deep vision performance for automated electrical grid asset inspection. Several pre-trained YOLOv11 variants (small, medium, large) are fine-tuned on the Insulator Defect Image Dataset (IDID), varying labeling strategy, cross-validation fold, and model complexity (108 trained models in total).
-
-### Background
-
-- Manual visual inspections are labor-intensive and prone to fatigue and cognitive bias
-- Deep neural networks are robust to label noise at scale, but clean labels still train better models
-- Recent work focuses on model-centric improvements, underestimating the role of data quality
-- In industries with limited datasets, shifting from big data to high-quality data is critical
-
-### Challenges
-
-- High-quality, consistently labeled data is scarce for electrical grid inspection
-- Implicit or inconsistent labeling rules limit model learning potential
-- Bounding-box shape and class-set choices change training signal without systematic evaluation
-- High validation scores can overstate operational effectiveness on rare defect classes
-
-### Approach
-
-- Annotation consistency: basic vs reference vs careful quality-control policies
-- Spatial granularity: large bounding box (`boxL`) vs small bounding box (`boxS`) vs polygon
-- Categorical definition: 4 classes (string, good, broken, flash) vs 3 classes vs 2 defective classes only
-- Cross-validation over 4 folds (400 unique images ordered by file size) and 3 YOLOv11 sizes
-
-<!-- TODO: drop your file in as approach.png -->
-<figure>
-  <img src="approach.png" alt="Annotation strategies compared. " width="100%">
-  <figcaption>
-  Annotation strategies compared across consistency, spatial granularity, and categorical definition.
+  Experiment design: one dimension varied per experiment while the others are held fixed, giving 108 trained models.
   </figcaption>
 </figure>
 
 ### Data
 
-- **Dataset**
-  - Insulator Defect Image Dataset (IDID): 400 unique images (1,600 with offline mirroring)
-  - Classes: String Insulator, Good Disc, Broken Disc, Flashover Shell
-  - High-resolution, close-up views of real operational environments
-
-- **Evaluation**
-  - Separate test set of 88 images, annotated by the authors with a careful QC policy
-  - Primary metric: Average Precision at IoU = 50% (AP50), focused on defective classes
-  - Validation mAP50 of 94.8% (YOLO11-large, 4 classes) drops to 78.1% on the defective-only test set
-
-<!-- TODO: drop your file in as data.png -->
-<figure>
-  <img src="data.png" alt="Dataset and evaluation setup. " width="100%">
-  <figcaption>
-  Dataset and evaluation setup for the IDID annotation experiments.
-  </figcaption>
-</figure>
+- **IDID:** 400 unique images (1,600 with offline mirroring); classes: String Insulator, Good Disc, Broken Disc, Flashover Shell.
+- High-resolution, close-up views of real operational environments.
+- Separate test set of 88 images, annotated by the authors with a careful QC policy.
 
 ### Results
 
-- Annotation consistency: careful labeling achieves high recall and the best AP50 (flash AP50 = 82.82%); reference labeling underperforms on broken (AP50 = 49.3%) with fewer instances
-- Spatial granularity: performance increases as label boundaries align more closely with defective visual features; polygons degrade less at higher IoU thresholds than boxes
-- Categorical definition: no significant trend from adding functional asset classes; annotated functional assets do not necessarily improve defect detection
+#### Annotation Consistency
 
-<!-- TODO: drop your file in as results.png -->
+**Key takeaway: missing annotations penalize recall.**
+
+- Only `careful` labelling achieved high recall; `string` is unaffected, since the QC threshold does not apply to functional assets.
+- `flash` reaches AP50 = 82.82% under careful QC (889 instances), while `broken` drops to 49.3% in the reference set (265 instances).
+
 <figure>
-  <img src="results.png" alt="Detection performance. " width="100%">
+  <img src="figures/noise.png" alt="Annotation consistency: quality control levels and instance counts." width="100%">
   <figcaption>
-  Detection performance across annotation consistency, spatial granularity, and categorical definition.
+  Quality-control levels — basic only flags obvious defects, careful also labels subtle ones — with instance counts per class.
   </figcaption>
 </figure>
 
-### Findings
+<figure>
+  <img src="figures/noise_results.png" alt="AP50 per class across quality-control policies." width="100%">
+  <figcaption>
+  AP50 per class across QC policies (cross-validation folds averaged). Higher instance counts under careful labelling lift the defective classes.
+  </figcaption>
+</figure>
 
-- Overlooking annotation procedures and mislabeled data limits model learning potential
-- Tighter spatial supervision improves precision and gradient quality
-- Including frequent non-defective classes inflates development scores without improving inspection-relevant performance
-- Rigorous testing on similar yet distinct data, aligned with inspection objectives, is essential
+#### Spatial Granularity
+
+**Key takeaway: improving tightness favours precision.**
+
+- Similar recall across variants, but precision rises from `boxL` → `boxS` → `polygon`.
+- Raising the IoU threshold penalises box annotations more than polygons.
+
+<figure>
+  <img src="figures/spatial.png" alt="Spatial granularity: object shape levels and instance counts." width="100%">
+  <figcaption>
+  Object-shape levels — large box, small box (inscribed in the polygon), and polygon — with instance counts per class.
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="figures/spatial_results.png" alt="Per-class precision across object shape levels." width="100%">
+  <figcaption>
+  Per-class precision across object shapes (averaged over model sizes). Tighter boundaries reduce background false positives.
+  </figcaption>
+</figure>
+
+#### Categorical Definition
+
+**Key takeaway: irrelevant labelling seems unnecessary labour.**
+
+- High variance across model and fold dimensions, but no trend linking extra functional classes to better defect detection.
+- Annotated functional assets do not necessarily improve detection of defective ones.
+- This assumption is challenged by our later [ICIP 2026](https://doi.org/10.1109/ICIP61757.2026.11630265) work, which shows non-defective asset labels do help on a different dataset.
+
+<figure>
+  <img src="figures/classes.png" alt="Categorical definition: class subsets and instance counts." width="100%">
+  <figcaption>
+  Class subsets — 4, 3, and 2 classes — with instance counts. `good` dominates the annotations (3,341 instances).
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="figures/classes_results.png" alt="mAP50 across class-count strategies." width="100%">
+  <figcaption>
+  mAP50 across class counts, averaged over classes. No systematic trend — adding functional classes does not improve defective-class detection.
+  </figcaption>
+</figure>
+
+### Takeaways
+
+- **Annotation consistency → recall:** missing annotations penalize recall; careful QC yields the best AP50 on defective classes.
+- **Spatial granularity → precision:** tighter labels favour precision, as background false positives are reduced.
+- **Categorical definition → no measurable impact:** adding functional asset classes does not improve defective-class detection.
+- Development scores can be inflated: 94.8% mAP50 on validation (4 classes) drops to 78.1% on the defective-only test set (2 classes).
+- Higher data quality reduces the need for large quantities of annotated data.
 
 ---
 
 ## Conference Paper
 
+A self-archived accepted manuscript is provided below. <br>
+The published version is available in [IEEE Xplore](https://doi.org/10.1109/ISPA66905.2025.11259463).
+
 <iframe 
-  src="paper_ISPA_2025_Annotations_Impact_Pedro_Daniel_Rocha.pdf#toolbar=0&view=Fit&navpanes=0" 
+  src="paper_ISPA_2025_Annotations_Impact_Pedro_Daniel_Rocha.pdf#toolbar=0&navpanes=0&view=FitH" 
   width="100%" 
   style="aspect-ratio: 1 / 1.294; border: none;">
   <p>This browser does not support PDFs. Please download the PDF to view it: 
     <a href="paper_ISPA_2025_Annotations_Impact_Pedro_Daniel_Rocha.pdf">Download PDF</a>.
+  </p>
+</iframe>
+
+---
+
+## Conference Slides
+
+<iframe 
+  src="slides_ISPA_2025_Annotations_Impact_Pedro_Daniel_Rocha.pdf#toolbar=0&navpanes=0&view=FitH" 
+  width="100%" 
+  style="aspect-ratio: 4 / 3; border: none;">
+  <p>This browser does not support PDFs. Please download the PDF to view it: 
+    <a href="slides_ISPA_2025_Annotations_Impact_Pedro_Daniel_Rocha.pdf">Download PDF</a>.
   </p>
 </iframe>
 

@@ -27,7 +27,7 @@ funding:
   - funder: Fundaçãao para a Ciência e a Tecnologia
     grant: 2024.01914.BDANA
 abstract: |
-  Electrical grid asset inspection is crucial for ensuring infrastructure reliability, preventing failures, and optimizing maintenance strategies. Vision models are evolving towards multimodal, large-scale architectures, yet many industrial tasks require fine-tuning on proprietary data to capture nuanced features. This work explores the capabilities and limitations of multimodal large language models for electrical grid asset inspection, comparing pre-trained and fine-tuned versions of the Florence-VL model across detailed captioning, object detection, and segmentation. Ground-truth labels for caption tasks were generated with GPT-4, while insulator-defect annotations were used for region tasks. Fine-tuning improves class recognition and object localization, though captions often remain simplistic and lack domain-specific detail. Despite accurate GPT-4 captions, it lacks batch-processing capabilities, limiting scalability.
+  Electrical grid asset inspection is crucial for ensuring infrastructure reliability, preventing failures, and optimizing maintenance strategies. Traditional methods rely heavily on manual labor, making inspections time-consuming, costly, and prone to inconsistencies. Recent advances in deep learning, particularly CNNs and ViTs, have shown potential for automating visual inspection tasks. Vision models are evolving towards multimodal, large-scale architectures. While MLLMs trained on diverse internet-sourced datasets show strong performance, many industrial tasks require models fine-tuned on proprietary data to capture the nuanced features necessary for specialization. This work explores the capabilities and limitations of multi-modal large language models for electrical grid asset inspection, comparing pre-trained and fine-tuned versions of the Florence-VL model across tasks like detailed captioning, object detection, and segmentation. Ground truth labels for caption-related tasks were generated using GPT-4, while annotations from a dataset of insulator defects were used for region-related tasks. Results indicate that fine-tuning improves class recognition and object localization, though captions often remain simplistic and lack domain-specific detail. Despite GPT-4 providing accurate captions, it lacks batch-processing capabilities, limiting its scalability. These findings underscore the importance of domain-specific fine-tuning and high-quality data to enhance MLLM performance.
 summary: Comparing pre-trained and fine-tuned Florence-VL on captioning, detection, and segmentation of HV insulator defects.
 tags:
   - Multimodal large language models
@@ -51,8 +51,8 @@ links:
   #  url: ""
   #- type: project
   #  url: ""
-  #- type: slides
-  #  url: ""
+  - type: slides
+    url: "slides_DSP_2025_HV_Insulators_MLLMs_Pedro_Daniel_Rocha.pdf"
   #- type: source
   #  url: ""
   #- type: video
@@ -68,119 +68,133 @@ status: published
 <!-- Add the paper text or supplementary notes. Markdown, math, and code are supported. -->
 ---
 
+> **Copyright notice:** © 2025 IEEE. Personal use of this material is permitted. Permission from IEEE must be obtained for all other uses. The published version is available via [IEEE Xplore](https://doi.org/10.1109/DSP65409.2025.11075122).
+
+---
+
 ## Overview
 
-<!-- TODO: drop your file in as graphical_abstract.pdf -->
-<figure>
-  <iframe
-    src="graphical_abstract.pdf#toolbar=0&view=Fit&navpanes=0"
-    width="100%"
-    style="aspect-ratio: 1/0.99; border: none;">
-    <p>
-      This browser does not support PDFs. Please download the PDF to view it:
-      <a href="graphical_abstract.pdf">Download PDF</a>.
-    </p>
-  </iframe>
+Simple comparative study: pre-trained vs fine-tuned Florence-2 on HV insulator inspection, across captioning, detection, and segmentation.
 
-  <figcaption>
-  Pre-trained vs fine-tuned Florence-VL across captioning, detection, and segmentation of insulator defects.
-  </figcaption>
-</figure>
+### Method
 
-Exploration of multimodal large language models for industry-specific electrical grid inspection, evaluating Florence-VL before and after LoRA fine-tuning on insulator defect imagery.
-
-### Background
-
-- Manual inspections are time-consuming, costly, and prone to inconsistencies
-- CNNs and ViTs automated visual inspection; vision models now evolve toward multimodal architectures
-- MLLMs trained on internet data perform strongly on generic tasks but miss industrial nuances
-- Generic datasets (ImageNet, COCO) fail on repetitive patterns, subtle defects, and low-contrast regions
-
-### Challenges
-
-- Specialized defect vocabularies (rust, flashover, broken disc) are missing from pre-trained models
-- Captioning, grounding, and segmentation must work on high-resolution operational imagery
-- GPT-4 gives accurate captions but lacks batch processing for proprietary data at scale
-- Fine-tuning must run on standard hardware with limited domain data
-
-### Approach
-
-- Pre-trained vs fine-tuned Florence-VL with LoRA (rank 16, ~3.9M trainable params, 1.4%)
-- Caption tasks: `<CAPTION>`, `<DETAILED CAPTION>`, `<MORE DETAILED CAPTION>` (GPT-4o ground truth)
-- Region tasks: `<REGION PROPOSAL>`, `<OD>`, `<DENSE REGION CAPTION>`
-- Grounded tasks: phrase grounding, referring-expression segmentation, region-to-segmentation
-
-<figure>
-  <img src="annotation_count.png" alt="Annotation setup. " width="100%">
-  <figcaption>
-  Annotation setup for region-related tasks from the insulator defect dataset.
-  </figcaption>
-</figure>
+- **PT:** [Florence-2-base-ft](https://huggingface.co/microsoft/Florence-2-base-ft) evaluated zero-shot.
+- **FT:** the same model LoRA-fine-tuned on curated [IDID](https://doi.org/10.21227/VKDW-X769) — 300 images, 3.1k region annotations, 4 classes.
+- Ground truth: GPT-4o for captions, IDID annotations for detection and segmentation.
 
 ### Data
 
-- **Dataset**
-  - Insulator Defect Image Dataset (IDID): 400 unique images (1,600 with mirroring)
-  - Classes: String Insulator, Good Disc, Broken Disc, Flashover Shell
-  - Curated version: standardized names, deduplicated splits, annotated test set, Roboflow release
-
-- **Splits**
-  - Train: 300 images, 3,211 instances
-  - Validation: 100 images, 1,517 instances
-  - Test: 88 images, 1,184 instances
+- **IDID:** 400 unique images (1,600 with mirroring); classes: String Insulator, Good Disc, Broken Disc, Flashover Shell.
+- Splits: train 300 / 3,211 instances, valid 100 / 1,517, test 88 / 1,184.
 
 <figure>
-  <img src="data_sample.jpg" alt="Canonical dataset samples. " width="100%">
+  <img src="figures/data_sample.jpg" alt="Canonical dataset samples." width="100%">
+  <img src="figures/annotation_count.png" alt="Annotation counts per class across train, validation and test splits." width="100%">
   <figcaption>
-  Canonical samples of each class and class distribution across splits.
+  Canonical samples of each class, with annotation counts per class across splits.
   </figcaption>
 </figure>
 
 ### Results
 
-- Fine-tuning improves class recognition and object localization; captions stay simplistic
-- Object detection mAP50 of 53.6% after fine-tuning (vs 89.7% YOLOv8 and 94.8% YOLO11 benchmarks)
-- Referring-expression segmentation works on blurred backgrounds even pre-trained, with errors
-- Region-to-segmentation often improves after fine-tuning, with mixed per-object results
+#### Caption Tasks
+
+- PT captions stay generic and often hallucinate off-domain objects; FT collapses to the trained class names with repetitive text.
+- GPT-4o ground truth stays descriptive and domain-specific.
 
 <figure>
-  <img src="results.jpg" alt="Captioning and detection results. " width="100%">
+  <img src="figures/caption1.jpg" alt="Detailed caption results, example 1." width="100%">
   <figcaption>
-  Captioning and detection results for pre-trained and fine-tuned models.
+  Detailed caption, example 1: PT vs FT against GPT-4o ground truth.
   </figcaption>
 </figure>
 
 <figure>
-  <img src="results_1.jpg" alt="Segmentation results, example 1. " width="100%">
+  <img src="figures/caption2.jpg" alt="Detailed caption results, example 2." width="100%">
   <figcaption>
-  Referring-expression and region-to-segmentation results, example 1.
+  Detailed caption, example 2: PT vs FT against GPT-4o ground truth.
+  </figcaption>
+</figure>
+
+#### Segmentation
+
+- Works on blurred backgrounds even pre-trained, with visible errors; fine-tuning improves masks but with mixed per-object results.
+
+<figure>
+  <img src="figures/phrase2segment_PT.jpg" alt="Phrase grounding segmentation by the pre-trained model." width="100%">
+  <figcaption>
+  Phrase grounding to segmentation with the pre-trained model on a free-text defect description.
   </figcaption>
 </figure>
 
 <figure>
-  <img src="results_2.jpg" alt="Segmentation results, example 2. " width="100%">
+  <img src="figures/box2segment.jpg" alt="Region-to-segmentation: labels vs PT vs FT." width="100%">
   <figcaption>
-  Referring-expression and region-to-segmentation results, example 2.
+  Region-to-segmentation: ground-truth labels vs pre-trained vs fine-tuned masks.
   </figcaption>
 </figure>
 
-### Findings
+#### Object Detection
 
-- Domain-specific fine-tuning is required for industrial defect vocabularies
-- Detection and segmentation transfer better than free-form captioning
-- High-quality, consistently labeled data matters more than generic scale
-- Tailored caption datasets are needed to close the semantic gap
+- Fine-tuning improves class recognition and object localization, but the model still confuses flashover with good discs.
+
+| Work     | Model            | # Params | mAP@50 |
+|----------|------------------|----------|--------|
+| Ours     | Florence-2-base  | 0.23B    | 53.6%  |
+| [1]      | YOLOv8s          | 11.2M    | 89.7%  |
+| [2]      | YOLO11l          | 20.1M    | 94.8%  |
+
+- [1] [SmartGridComm 2024](https://doi.org/10.1109/SmartGridComm60555.2024.10738034) — YOLOv8s on HV insulators.
+- [2] [ISPA 2025](https://doi.org/10.1109/ISPA66905.2025.11259463) — YOLOv11-large on the same dataset.
+
+Multimodal models remain well behind these specialist CNN detectors, despite comparable or larger parameter counts — a key limitation for inspection use.
+
+<figure>
+  <img src="figures/OD1.jpg" alt="Object detection: labels vs FT, example 1." width="100%">
+  <figcaption>
+  Detection example 1: ground-truth labels vs FT output — broken disc and surrounding good discs recovered.
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="figures/OD2.jpg" alt="Object detection: labels vs FT, example 2." width="100%">
+  <figcaption>
+  Detection example 2: ground-truth labels vs FT output on a flashover string.
+  </figcaption>
+</figure>
+
+### Takeaways
+
+- Fine-tuning is required for industrial defect vocabularies, but captions remain simplistic.
+- Detection and segmentation transfer better than free-form captioning.
+- Specialist CNN detectors still outperform MLLMs on detection accuracy.
 
 ---
 
 ## Conference Paper
 
+A self-archived accepted manuscript is provided below. <br>
+The published version is available in [IEEE Xplore](https://doi.org/10.1109/DSP65409.2025.11075122).
+
 <iframe
-  src="paper_DSP_2025_HV_Insulators_MLLMs_Pedro_Daniel_Rocha.pdf#toolbar=0&view=Fit&navpanes=0"
+  src="paper_DSP_2025_HV_Insulators_MLLMs_Pedro_Daniel_Rocha.pdf#toolbar=0&navpanes=0&view=Fit"
   width="100%"
   style="aspect-ratio: 1 / 1.294; border: none;">
   <p>This browser does not support PDFs. Please download the PDF to view it:
     <a href="paper_DSP_2025_HV_Insulators_MLLMs_Pedro_Daniel_Rocha.pdf">Download PDF</a>.
+  </p>
+</iframe>
+
+---
+
+## Conference Slides
+
+<iframe
+  src="slides_DSP_2025_HV_Insulators_MLLMs_Pedro_Daniel_Rocha.pdf#toolbar=0&navpanes=0&view=Fit"
+  width="100%"
+  style="aspect-ratio: 4/3; border: none;">
+  <p>This browser does not support PDFs. Please download the PDF to view it:
+    <a href="slides_DSP_2025_HV_Insulators_MLLMs_Pedro_Daniel_Rocha.pdf">Download PDF</a>.
   </p>
 </iframe>
 
