@@ -1,0 +1,144 @@
+{{/*
+  gallery — inline image gallery shortcode.
+
+  Drop-in replacement for the legacy Wowchemy/Academic `gallery` shortcode,
+  which no longer exists in HugoBlox v8 (there, galleries are a Preact
+  "block" that only renders on landing pages). This shortcode renders the
+  same HugoBlox gallery Preact component inline in the markdown body of
+  any page type (publications, events, posts, projects, ...).
+
+  Usage:
+    {{< gallery album="slides" >}}
+    {{< gallery album="slides" aspect_ratio="landscape" >}}
+    {{< gallery album="slides" layout="masonry" columns=4 limit=24 >}}
+    {{< gallery page_resources=true >}}
+
+  Content params:
+    album            image folder — resolved under assets/ when it exists
+                     there, otherwise as a subfolder of the current page
+                     bundle (e.g. the images next to this index.md)
+    page_resources   true = auto-discover every image attached to the page
+                     bundle
+    limit            max number of images (0 = no limit)
+    sort             asc | desc (applied to album / page-resources images)
+    title, subtitle  heading rendered above the gallery
+
+  Design params:
+    layout           grid | masonry | justified | carousel | slideshow
+    columns          1-6 (grid / masonry / carousel)
+    gap              sm | md | lg
+    aspect_ratio     square | landscape | portrait | wide (tile ratio)
+    caption_position below | overlay | hover | none
+    hover_zoom       true | false
+    lightbox         true | false (click-to-zoom overlay)
+    autoplay         true | false (slideshow layout only)
+    autoplay_interval ms (slideshow layout only)
+    row_height       px (justified layout only)
+
+  Per-image metadata: sidecar files (<image>.png.yaml) next to the images —
+  in the bundle or under assets/ — supply caption/title/credit/alt/link,
+  mirroring the landing-page gallery block.
+*/}}
+
+{{ $album := strings.TrimSuffix "/" (printf "%v" (.Params.album | default "")) }}
+{{ $sort_order := lower (printf "%v" (.Params.sort | default "asc")) }}
+{{ if ne $sort_order "desc" }}{{ $sort_order = "asc" }}{{ end }}
+{{ $limit := int (printf "%v" (.Params.limit | default 0)) }}
+
+{{/* Collect candidate images from the page bundle (proven top-level pattern) */}}
+{{ $bundle_items := slice }}
+{{ $all_images := .Page.Resources.ByType "image" }}
+{{ if $album }}
+  {{ range $r := $all_images }}
+    {{ if hasPrefix $r.Name (printf "%s/" $album) }}
+      {{ $bundle_items = $bundle_items | append (dict "src" $r.Name) }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ $bundle_items = sort $bundle_items "src" $sort_order }}
+{{ if and (gt $limit 0) (gt (len $bundle_items) 0) }}
+  {{ $bundle_items = first $limit $bundle_items }}
+{{ end }}
+
+{{/* How many files does the assets/ album glob find? */}}
+{{ $assets_count := 0 }}
+{{ if $album }}
+  {{ $assets_count = len (resources.GetMatch (printf "%s/*" $album) | default dict) }}
+{{ end }}
+
+{{ $content := dict }}
+{{ $design := dict }}
+
+{{ with .Params.title }}{{ $content = merge $content (dict "title" .) }}{{ end }}
+{{ with .Params.subtitle }}{{ $content = merge $content (dict "subtitle" .) }}{{ end }}
+
+{{/* Album under assets/ (Lightroom sidecars + EXIF supported by the resolver) */}}
+{{ if and $album (gt $assets_count 0) }}
+  {{ $content = merge $content (dict "album" $album "sort" $sort_order) }}
+  {{ if gt $limit 0 }}{{ $content = merge $content (dict "limit" $limit) }}{{ end }}
+{{ end }}
+
+{{/* Album as a subfolder of the current page bundle */}}
+{{ if and $album (lt $assets_count 1) (gt (len $bundle_items) 0) }}
+  {{ $content = merge $content (dict "items" $bundle_items) }}
+{{ end }}
+{{ if and $album (lt $assets_count 1) (lt (len $bundle_items) 1) }}
+  {{ partial "functions/logger" (dict "page" .Page "level" "warn" "id" (printf "gallery-album-missing-%s" $album) "message" (printf "gallery shortcode: album '%s' not found under assets/ or in the page bundle — no images rendered" $album) "source" (dict "type" "shortcode" "name" "gallery") ) }}
+{{ end }}
+
+{{/* Auto-discover every image in the page bundle */}}
+{{ if and (not $album) (eq (printf "%v" (.Params.page_resources | default false)) "true") }}
+  {{ $content = merge $content (dict "page_resources" true "sort" $sort_order) }}
+  {{ if gt $limit 0 }}{{ $content = merge $content (dict "limit" $limit) }}{{ end }}
+{{ end }}
+{{ if and (not $album) (ne (printf "%v" (.Params.page_resources | default false)) "true") }}
+  {{ partial "functions/logger" (dict "page" .Page "level" "warn" "id" "gallery-no-source" "message" "gallery shortcode: no album or page_resources param given — no images rendered" "source" (dict "type" "shortcode" "name" "gallery") ) }}
+{{ end }}
+
+{{/* Design: string params */}}
+{{ range $key := slice "layout" "gap" "aspect_ratio" "caption_position" }}
+  {{ with index $.Params $key }}
+    {{ $design = merge $design (dict $key (printf "%v" .)) }}
+  {{ end }}
+{{ end }}
+
+{{/* Design: integer params */}}
+{{ range $key := slice "columns" "row_height" "autoplay_interval" }}
+  {{ with index $.Params $key }}
+    {{ $design = merge $design (dict $key (int (printf "%v" .))) }}
+  {{ end }}
+{{ end }}
+
+{{/* Design: boolean params */}}
+{{ range $key := slice "hover_zoom" "lightbox" "autoplay" }}
+  {{ with index $.Params $key }}
+    {{ $design = merge $design (dict $key (eq (printf "%v" .) "true")) }}
+  {{ end }}
+{{ end }}
+
+{{/* Render the block only when there is a source of images */}}
+{{ if or $content.items $content.album $content.page_resources }}
+  {{ $block := dict "content" $content "design" $design }}
+  {{/* not-prose: keep Tailwind Typography's .prose img margins (2em top/bottom)
+       from shifting the absolutely-positioned tiles inside article pages */}}
+  <div class="not-prose my-2">
+  {{ partial "blox/preact-wrapper" (dict "wcPage" .Page "wcBlock" $block "wcBlockType" "gallery" "wcIdentifier" (printf "gallery-%s" (cond $album $album "inline")) ) }}
+  </div>
+
+  {{/* Ship the gallery Preact client — once per page */}}
+  {{ if not (.Page.Scratch.Get "hbx_gallery_client_js") }}
+    {{ .Page.Scratch.Set "hbx_gallery_client_js" true }}
+    {{ with resources.Get "js/hbx/blocks/gallery/client.jsx" }}
+      {{ $opts := dict "targetPath" "assets/js/preact-built/gallery.js" "JSX" "automatic" "JSXImportSource" "preact" "format" "iife" "minify" hugo.IsProduction }}
+      {{ if hugo.IsDevelopment }}{{ $opts = merge $opts (dict "sourceMap" "external") }}{{ end }}
+      {{ $built := . | js.Build $opts }}
+      {{ if hugo.IsProduction }}
+        {{ with $built | fingerprint "sha256" }}
+        <script defer src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}"></script>
+        {{ end }}
+      {{ else }}
+        <script defer src="{{ $built.RelPermalink }}"></script>
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}

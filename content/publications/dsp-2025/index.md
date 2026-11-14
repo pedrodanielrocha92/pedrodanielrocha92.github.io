@@ -189,13 +189,5 @@ The published version is available in [IEEE Xplore](https://doi.org/10.1109/DSP6
 
 ## Conference Slides
 
-<iframe
-  src="slides_DSP_2025_HV_Insulators_MLLMs_Pedro_Daniel_Rocha.pdf#toolbar=0&navpanes=0&view=Fit"
-  width="100%"
-  style="aspect-ratio: 4/3; border: none;">
-  <p>This browser does not support PDFs. Please download the PDF to view it:
-    <a href="slides_DSP_2025_HV_Insulators_MLLMs_Pedro_Daniel_Rocha.pdf">Download PDF</a>.
-  </p>
-</iframe>
+{{< gallery album="slides" layout="slideshow" aspect_ratio="landscape" caption_position="none">}} 
 
----

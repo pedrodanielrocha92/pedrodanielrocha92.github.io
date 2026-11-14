@@ -38,7 +38,7 @@ links:
   - type: pdf
     url: paper_IEEE_Access_Review_CV_Electrical_Assets_Pedro_Daniel_Rocha.pdf
   - type: video
-    url: video.mp4
+    url: https://youtu.be/kMCduLn8K1s
 image:
   caption: "Automating inspection: from current workflow to data-centric active learning."
   focal_point: ""
@@ -56,9 +56,7 @@ status: published
 
 ## Presentation Video
 
-
-!-- Graphical abstract video: replace ID once published on YouTube --
-!-- {{< youtube YOUR_ID >}} --
+{{< youtube kMCduLn8K1s >}}
 
 
 ## Overview
